@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Website Jadwal Sholat Digital
+   Website Jadwal Sholat Digital - Mobile-First Edition
    Markaz: RSUD dr. R. Koesma Tuban, Jawa Timur
    Koordinat: -6.8996° LS, 112.0494° BT
    ========================================================================== */
@@ -9,64 +9,69 @@
   --primary-dark: #0f766e;
   --accent-gold: #f59e0b;
   --bg-dark: #091e1d;
-  --card-dark: rgba(15, 35, 33, 0.75);
-  --card-border: rgba(45, 212, 191, 0.2);
+  --card-dark: rgba(13, 33, 31, 0.85);
+  --card-border: rgba(45, 212, 191, 0.18);
   --text-main: #f0fdfa;
   --text-muted: #99f6e4;
+  --safe-bottom: env(safe-area-inset-bottom, 16px);
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+  box-sizing: border-box;
 }
 
 body {
   font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background: radial-gradient(circle at 50% 0%, #115e59 0%, #042f2e 45%, #021e1d 100%);
+  background: radial-gradient(circle at 50% 0%, #115e59 0%, #042f2e 40%, #021a19 100%);
   min-height: 100vh;
   color: var(--text-main);
   overflow-x: hidden;
+  padding-bottom: calc(5rem + var(--safe-bottom));
+}
+
+@media (min-width: 768px) {
+  body {
+    padding-bottom: 2rem;
+  }
+}
+
+/* Arabic Calligraphy Font */
+.font-arabic {
+  font-family: 'Amiri', 'Traditional Arabic', 'Scheherazade New', serif;
+  direction: rtl;
 }
 
 /* Glassmorphism Cards */
 .glass-panel {
   background: var(--card-dark);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--card-border);
-  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5), 0 0 20px rgba(13, 148, 136, 0.1);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .glass-panel:hover {
-  border-color: rgba(45, 212, 191, 0.45);
-  box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.6), 0 0 25px rgba(20, 184, 166, 0.25);
+  border-color: rgba(45, 212, 191, 0.4);
 }
 
-/* Active / Next Prayer Glow */
+/* Active / Next Prayer Glow on Mobile */
 .prayer-card-active {
-  background: linear-gradient(135deg, rgba(13, 148, 136, 0.45) 0%, rgba(15, 118, 110, 0.3) 100%) !important;
+  background: linear-gradient(135deg, rgba(13, 148, 136, 0.5) 0%, rgba(15, 118, 110, 0.35) 100%) !important;
   border-color: #2dd4bf !important;
-  box-shadow: 0 0 30px rgba(45, 212, 191, 0.4), inset 0 0 15px rgba(45, 212, 191, 0.2) !important;
-  transform: translateY(-4px);
+  box-shadow: 0 0 25px rgba(45, 212, 191, 0.35), inset 0 0 15px rgba(45, 212, 191, 0.15) !important;
 }
 
 .prayer-card-active .prayer-time {
   color: #5eead4 !important;
-  text-shadow: 0 0 15px rgba(94, 234, 212, 0.6);
+  text-shadow: 0 0 14px rgba(94, 234, 212, 0.7);
 }
 
-/* Islamic Geometric Pattern Subtle Overlay */
+/* Islamic Geometric Pattern */
 .islamic-bg-pattern {
-  background-image: radial-gradient(rgba(45, 212, 191, 0.08) 1px, transparent 1px);
-  background-size: 24px 24px;
-}
-
-/* Digital Font */
-@font-face {
-  font-family: 'DS-Digital';
-  src: local('Courier New'), monospace;
-}
-
-.font-digital {
-  font-family: 'Courier New', monospace;
-  font-weight: 700;
-  letter-spacing: 2px;
+  background-image: radial-gradient(rgba(45, 212, 191, 0.07) 1px, transparent 1px);
+  background-size: 20px 20px;
 }
 
 /* Blinking Colon */
@@ -80,7 +85,7 @@ body {
   }
 }
 
-/* Pulse Glow */
+/* Pulse Glow Effect */
 .pulse-glow {
   animation: pulseGlow 2.5s infinite;
 }
@@ -90,13 +95,65 @@ body {
     box-shadow: 0 0 15px rgba(45, 212, 191, 0.3);
   }
   50% {
-    box-shadow: 0 0 35px rgba(45, 212, 191, 0.7);
+    box-shadow: 0 0 32px rgba(45, 212, 191, 0.65);
   }
 }
 
-/* Compass Needle */
+/* Mobile Bottom Navigation Dock */
+.mobile-bottom-dock {
+  background: rgba(4, 34, 33, 0.88);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-top: 1px solid rgba(45, 212, 191, 0.22);
+  padding-bottom: var(--safe-bottom);
+  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.bottom-tab-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 10px;
+  color: #99f6e4;
+  font-size: 11px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.bottom-tab-btn:active {
+  transform: scale(0.92);
+}
+
+.bottom-tab-btn.active {
+  color: #ffffff;
+}
+
+.bottom-tab-btn.active svg {
+  color: #2dd4bf;
+  filter: drop-shadow(0 0 8px rgba(45, 212, 191, 0.8));
+}
+
+.bottom-tab-btn.active::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  width: 16px;
+  height: 3px;
+  border-radius: 9999px;
+  background: #2dd4bf;
+  box-shadow: 0 0 8px #2dd4bf;
+}
+
+/* Compass Needle & Kaaba Target */
 .compass-dial {
-  transition: transform 0.2s cubic-bezier(0.2, 0, 0.1, 1);
+  transition: transform 0.25s cubic-bezier(0.1, 0.8, 0.3, 1);
+}
+
+.compass-aligned {
+  box-shadow: 0 0 35px rgba(34, 197, 94, 0.7) !important;
+  border-color: #4ade80 !important;
 }
 
 /* Running Marquee */
@@ -108,16 +165,12 @@ body {
 .marquee-content {
   display: inline-block;
   padding-left: 100%;
-  animation: marquee 30s linear infinite;
+  animation: marquee 32s linear infinite;
 }
 
 @keyframes marquee {
-  0% {
-    transform: translate(0, 0);
-  }
-  100% {
-    transform: translate(-100%, 0);
-  }
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(-100%, 0); }
 }
 
 /* TV Display Mode Specifics */
@@ -127,20 +180,13 @@ body.tv-mode {
   background: #021a19 !important;
 }
 
-body.tv-mode .normal-only {
+body.tv-mode .mobile-bottom-dock,
+body.tv-mode .mobile-only-header {
   display: none !important;
 }
 
-body.tv-mode .tv-container {
-  height: 96vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-body.tv-mode .clock-large {
-  font-size: 5.5rem !important;
-  line-height: 1 !important;
+body.tv-mode .normal-only {
+  display: none !important;
 }
 
 body.tv-mode .prayer-grid {
@@ -148,24 +194,13 @@ body.tv-mode .prayer-grid {
   gap: 0.75rem !important;
 }
 
-/* Modal animation */
-.modal-enter {
-  opacity: 0;
-  transform: scale(0.95);
-}
-.modal-enter-active {
-  opacity: 1;
-  transform: scale(1);
-  transition: all 0.2s ease-out;
-}
-
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: rgba(4, 47, 46, 0.7);
+  background: rgba(4, 47, 46, 0.6);
 }
 ::-webkit-scrollbar-thumb {
   background: #0d9488;
@@ -180,8 +215,9 @@ body.tv-mode .prayer-grid {
   body {
     background: #ffffff !important;
     color: #000000 !important;
+    padding-bottom: 0 !important;
   }
-  .no-print, header, footer, .controls-toolbar, .hero-countdown {
+  .no-print, header, footer, .controls-toolbar, .hero-countdown, .mobile-bottom-dock {
     display: none !important;
   }
   #monthly-modal {

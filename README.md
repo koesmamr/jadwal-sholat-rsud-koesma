@@ -2,7 +2,8 @@
 
 Aplikasi web modern, responsif, dan akurat untuk menampilkan jadwal waktu sholat, imsakiyah, dan pengingat adzan digital dengan titik markaz hisab astronomis di **RSUD dr. R. Koesma Kabupaten Tuban, Jawa Timur**.
 
-🌐 **Website Live Online:** [https://koesmamr.github.io/jadwal-sholat-rsud-koesma/](https://koesmamr.github.io/jadwal-sholat-rsud-koesma/)
+🌐 **Website Live Online:** [https://koesmamr.github.io/jadwal-sholat-rsud-koesma/](https://koesmamr.github.io/jadwal-sholat-rsud-koesma/)  
+📲 **Unduh File .APK Android:** [Jadwal-Sholat-RSUD-Koesma-Tuban.apk (v1.0.0)](https://github.com/koesmamr/jadwal-sholat-rsud-koesma/releases/download/v1.0.0/Jadwal-Sholat-RSUD-Koesma-Tuban.apk)
 
 ---
 

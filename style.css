@@ -1,18 +1,14 @@
 /* ==========================================================================
-   Website Jadwal Sholat Digital - Mobile-First Edition
+   Website Jadwal Sholat Digital - Aesthetic Islamic Theme
    Markaz: RSUD dr. R. Koesma Tuban, Jawa Timur
-   Koordinat: -6.8996° LS, 112.0494° BT
    ========================================================================== */
 
 :root {
-  --primary-emerald: #0d9488;
-  --primary-dark: #0f766e;
-  --accent-gold: #f59e0b;
-  --bg-dark: #091e1d;
-  --card-dark: rgba(13, 33, 31, 0.85);
-  --card-border: rgba(45, 212, 191, 0.18);
-  --text-main: #f0fdfa;
-  --text-muted: #99f6e4;
+  --primary-bg: #020617; /* slate-950 */
+  --card-bg: rgba(15, 23, 42, 0.7); /* slate-900 */
+  --card-border: rgba(245, 158, 11, 0.2); /* amber-500 */
+  --accent-gold: #f59e0b; /* amber-500 */
+  --accent-glow: rgba(245, 158, 11, 0.35);
   --safe-bottom: env(safe-area-inset-bottom, 16px);
 }
 
@@ -23,9 +19,9 @@
 
 body {
   font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background: radial-gradient(circle at 50% 0%, #115e59 0%, #042f2e 40%, #021a19 100%);
+  background-color: var(--primary-bg);
   min-height: 100vh;
-  color: var(--text-main);
+  color: #f8fafc;
   overflow-x: hidden;
   padding-bottom: calc(5rem + var(--safe-bottom));
 }
@@ -38,40 +34,44 @@ body {
 
 /* Arabic Calligraphy Font */
 .font-arabic {
-  font-family: 'Amiri', 'Traditional Arabic', 'Scheherazade New', serif;
+  font-family: 'Amiri', 'Traditional Arabic', serif;
   direction: rtl;
 }
 
-/* Glassmorphism Cards */
+/* Islamic Geometric Background (Subtle) */
+.islamic-bg-pattern {
+  background-image: 
+    url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0L33 27L60 30L33 33L30 60L27 33L0 30L27 27L30 0Z' fill='rgba(245, 158, 11, 0.04)' fill-rule='evenodd'/%3E%3C/svg%3E"),
+    radial-gradient(circle at 50% 0%, #0f172a 0%, #020617 70%);
+  background-size: 120px 120px, 100% 100%;
+  background-attachment: fixed;
+}
+
+/* Glass Panels */
 .glass-panel {
-  background: var(--card-dark);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: var(--card-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--card-border);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 10px 40px -10px rgba(0,0,0,0.5);
+  transition: all 0.3s ease;
 }
 
 .glass-panel:hover {
-  border-color: rgba(45, 212, 191, 0.4);
+  border-color: rgba(245, 158, 11, 0.4);
 }
 
-/* Active / Next Prayer Glow on Mobile */
+/* Active Prayer Highlight */
 .prayer-card-active {
-  background: linear-gradient(135deg, rgba(13, 148, 136, 0.5) 0%, rgba(15, 118, 110, 0.35) 100%) !important;
-  border-color: #2dd4bf !important;
-  box-shadow: 0 0 25px rgba(45, 212, 191, 0.35), inset 0 0 15px rgba(45, 212, 191, 0.15) !important;
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.9) 100%) !important;
+  border-color: var(--accent-gold) !important;
+  box-shadow: 0 0 30px var(--accent-glow), inset 0 0 20px rgba(245, 158, 11, 0.1) !important;
+  transform: translateY(-2px);
 }
 
 .prayer-card-active .prayer-time {
-  color: #5eead4 !important;
-  text-shadow: 0 0 14px rgba(94, 234, 212, 0.7);
-}
-
-/* Islamic Geometric Pattern */
-.islamic-bg-pattern {
-  background-image: radial-gradient(rgba(45, 212, 191, 0.07) 1px, transparent 1px);
-  background-size: 20px 20px;
+  color: #fbbf24 !important;
+  text-shadow: 0 0 12px rgba(251, 191, 36, 0.6);
 }
 
 /* Blinking Colon */
@@ -80,33 +80,27 @@ body {
 }
 
 @keyframes blink {
-  50% {
-    opacity: 0.15;
-  }
+  50% { opacity: 0.2; }
 }
 
-/* Pulse Glow Effect */
+/* Pulse Glow */
 .pulse-glow {
-  animation: pulseGlow 2.5s infinite;
+  animation: pulseGlow 3s infinite;
 }
 
 @keyframes pulseGlow {
-  0%, 100% {
-    box-shadow: 0 0 15px rgba(45, 212, 191, 0.3);
-  }
-  50% {
-    box-shadow: 0 0 32px rgba(45, 212, 191, 0.65);
-  }
+  0%, 100% { box-shadow: 0 0 20px rgba(245, 158, 11, 0.2); }
+  50% { box-shadow: 0 0 40px rgba(245, 158, 11, 0.5); }
 }
 
-/* Mobile Bottom Navigation Dock */
+/* Bottom Navigation */
 .mobile-bottom-dock {
-  background: rgba(4, 34, 33, 0.88);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border-top: 1px solid rgba(45, 212, 191, 0.22);
+  background: rgba(2, 6, 23, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(245, 158, 11, 0.15);
   padding-bottom: var(--safe-bottom);
-  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 -15px 40px rgba(0, 0, 0, 0.6);
 }
 
 .bottom-tab-btn {
@@ -114,49 +108,43 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 6px 10px;
-  color: #99f6e4;
+  padding: 8px 10px;
+  color: #64748b;
   font-size: 11px;
   font-weight: 500;
-  transition: all 0.2s ease;
+  transition: all 0.25s ease;
   position: relative;
 }
 
 .bottom-tab-btn:active {
-  transform: scale(0.92);
+  transform: scale(0.9);
 }
 
 .bottom-tab-btn.active {
-  color: #ffffff;
+  color: #fbbf24;
 }
 
 .bottom-tab-btn.active svg {
-  color: #2dd4bf;
-  filter: drop-shadow(0 0 8px rgba(45, 212, 191, 0.8));
+  filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.6));
 }
 
 .bottom-tab-btn.active::after {
   content: '';
   position: absolute;
-  top: 2px;
-  width: 16px;
+  top: 0;
+  width: 24px;
   height: 3px;
   border-radius: 9999px;
-  background: #2dd4bf;
-  box-shadow: 0 0 8px #2dd4bf;
+  background: #fbbf24;
+  box-shadow: 0 0 10px #fbbf24;
 }
 
-/* Compass Needle & Kaaba Target */
+/* Compass */
 .compass-dial {
-  transition: transform 0.25s cubic-bezier(0.1, 0.8, 0.3, 1);
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-.compass-aligned {
-  box-shadow: 0 0 35px rgba(34, 197, 94, 0.7) !important;
-  border-color: #4ade80 !important;
-}
-
-/* Running Marquee */
+/* Marquee */
 .marquee-container {
   overflow: hidden;
   white-space: nowrap;
@@ -165,7 +153,7 @@ body {
 .marquee-content {
   display: inline-block;
   padding-left: 100%;
-  animation: marquee 32s linear infinite;
+  animation: marquee 35s linear infinite;
 }
 
 @keyframes marquee {
@@ -173,25 +161,20 @@ body {
   100% { transform: translate(-100%, 0); }
 }
 
-/* TV Display Mode Specifics */
+/* TV Mode */
 body.tv-mode {
   padding: 1rem !important;
   overflow: hidden !important;
-  background: #021a19 !important;
+  background: #000000 !important;
 }
 
-body.tv-mode .mobile-bottom-dock,
-body.tv-mode .mobile-only-header {
-  display: none !important;
-}
-
-body.tv-mode .normal-only {
+body.tv-mode .mobile-bottom-dock {
   display: none !important;
 }
 
 body.tv-mode .prayer-grid {
   grid-template-columns: repeat(8, minmax(0, 1fr)) !important;
-  gap: 0.75rem !important;
+  gap: 1rem !important;
 }
 
 /* Custom Scrollbar */
@@ -200,50 +183,12 @@ body.tv-mode .prayer-grid {
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: rgba(4, 47, 46, 0.6);
+  background: #020617;
 }
 ::-webkit-scrollbar-thumb {
-  background: #0d9488;
+  background: #334155;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #14b8a6;
-}
-
-/* Print Styling for Monthly Table */
-@media print {
-  body {
-    background: #ffffff !important;
-    color: #000000 !important;
-    padding-bottom: 0 !important;
-  }
-  .no-print, header, footer, .controls-toolbar, .hero-countdown, .mobile-bottom-dock {
-    display: none !important;
-  }
-  #monthly-modal {
-    position: static !important;
-    display: block !important;
-    background: transparent !important;
-    padding: 0 !important;
-  }
-  #monthly-modal > div {
-    background: #ffffff !important;
-    color: #000000 !important;
-    border: none !important;
-    box-shadow: none !important;
-    max-width: 100% !important;
-  }
-  table {
-    border-collapse: collapse !important;
-    width: 100% !important;
-  }
-  th, td {
-    border: 1px solid #333 !important;
-    color: #000 !important;
-    padding: 6px !important;
-    font-size: 11pt !important;
-  }
-  th {
-    background-color: #f0f0f0 !important;
-  }
+  background: #475569;
 }

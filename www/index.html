@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Jadwal Sholat Digital | RSUD dr. R. Koesma Tuban</title>
+  <meta name="description" content="Jadwal Sholat Digital Akurat Markaz RSUD dr. R. Koesma Tuban, Jawa Timur. Dilengkapi jam digital real-time, hitung mundur sholat, kalender hijriah, kompas kiblat, dan doa kesembuhan pasien.">
+  <meta name="theme-color" content="#042f2e">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Sholat Koesma">
+  
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.json">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2314b8a6'><path d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z'/></svg>">
+  
+  <!-- Fonts: Inter, Outfit, Amiri (Arabic), JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500;700;800&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          screens: {
+            'xs': '400px'
+          },
+          colors: {
+            brand: {
+              50: '#f0fdfa',
+              100: '#ccfbf1',
+              200: '#99f6e4',
+              300: '#5eead4',
+              400: '#2dd4bf',
+              500: '#14b8a6',
+              600: '#0d9488',
+              700: '#0f766e',
+              800: '#115e59',
+              900: '#134e4a',
+              950: '#042f2e'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Outfit', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+            arabic: ['Amiri', 'serif']
+          }
+        }
+      }
+    }
+  </script>
+  
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="islamic-bg-pattern min-h-screen flex flex-col justify-between selection:bg-teal-500 selection:text-white">
+
+  <!-- ==================== TOP APP BAR (MOBILE FIRST) ==================== -->
+  <header class="w-full border-b border-teal-800/40 bg-teal-950/80 backdrop-blur-md sticky top-0 z-40">
+    <div class="max-w-4xl mx-auto px-3.5 sm:px-6 py-2.5 flex items-center justify-between">
+      
+      <!-- Logo & Nama RSUD Koesma -->
+      <div class="flex items-center space-x-2.5">
+        <div class="w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-tr from-teal-600 to-emerald-400 flex items-center justify-center shadow-md shadow-teal-500/20 border border-teal-300/30 shrink-0">
+          <svg class="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2C7 2 4 7 4 12v8h16v-8c0-5-3-10-8-10zM12 7v6m-3-3h6"></path>
+          </svg>
+        </div>
+        <div>
+          <div class="flex items-center space-x-1.5">
+            <span class="text-[10px] font-bold tracking-wider text-teal-400 uppercase">RSUD dr. R. KOESMA TUBAN</span>
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+          </div>
+          <h1 class="text-sm sm:text-base font-display font-extrabold text-white leading-tight">
+            Jadwal Sholat Digital
+          </h1>
+        </div>
+      </div>
+
+      <!-- Quick Action Buttons di Header -->
+      <div class="flex items-center space-x-1.5 sm:space-x-2">
+        
+        <!-- Toggle Suara -->
+        <button id="sound-toggle-btn" onclick="toggleSound()" title="Aktifkan / Heningkan Suara Adzan"
+          class="p-2 sm:px-3 sm:py-1.5 rounded-xl bg-teal-900/50 border border-teal-700/40 text-teal-300 hover:text-white transition flex items-center gap-1.5 text-xs">
+          <svg id="sound-icon" class="w-4 h-4 text-teal-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path>
+          </svg>
+          <span id="sound-status-text" class="hidden sm:inline">Suara</span>
+        </button>
+
+        <!-- Unduh APK -->
+        <a href="https://github.com/koesmamr/jadwal-sholat-rsud-koesma/releases/download/v1.0.0/Jadwal-Sholat-RSUD-Koesma-Tuban.apk"
+          title="Unduh File Aplikasi Android (.APK)"
+          class="p-2 sm:px-3 sm:py-1.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white transition flex items-center gap-1.5 text-xs font-semibold shadow-sm">
+          <svg class="w-4 h-4 text-emerald-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+          </svg>
+          <span class="hidden xs:inline">Unduh APK</span>
+        </a>
+
+        <!-- Mode TV / Fullscreen -->
+        <button onclick="toggleTvMode()" title="Mode TV Display"
+          class="p-2 sm:px-3 sm:py-1.5 rounded-xl bg-teal-900/50 border border-teal-700/40 text-teal-300 hover:text-white transition flex items-center gap-1 text-xs">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+          </svg>
+          <span class="hidden sm:inline">TV</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ==================== MAIN CONTENT (MOBILE CENTERED) ==================== -->
+  <main class="max-w-4xl mx-auto px-3.5 sm:px-6 py-4 flex-1 w-full">
+
+    <!-- NAVIGATOR TANGGAL: KEMARIN - HARI INI - BESOK -->
+    <div class="mb-4 flex items-center justify-between bg-teal-950/60 p-1.5 rounded-2xl border border-teal-800/40 backdrop-blur-sm">
+      <button onclick="navigateDate(-1)" class="px-2.5 py-1.5 rounded-xl bg-teal-900/40 hover:bg-teal-800/50 text-xs font-semibold text-teal-300 flex items-center gap-1 transition">
+        <span>◀</span>
+        <span class="hidden xs:inline">Kemarin</span>
+      </button>
+
+      <button onclick="resetToToday()" class="text-center px-2 py-1">
+        <span id="date-nav-label" class="text-xs font-bold font-mono px-2 py-0.5 rounded-full bg-teal-800/80 text-teal-200 border border-teal-500/30">HARI INI</span>
+        <span id="date-nav-sub" class="block text-[11px] text-teal-300/80 mt-0.5 font-medium">Memuat tanggal...</span>
+      </button>
+
+      <button onclick="navigateDate(1)" class="px-2.5 py-1.5 rounded-xl bg-teal-900/40 hover:bg-teal-800/50 text-xs font-semibold text-teal-300 flex items-center gap-1 transition">
+        <span class="hidden xs:inline">Besok</span>
+        <span>▶</span>
+      </button>
+    </div>
+
+    <!-- MASTER HERO CARD: JAM DIGITAL REAL-TIME & LIVE COUNTDOWN -->
+    <div class="glass-panel rounded-3xl p-4 sm:p-6 mb-5 relative overflow-hidden border-teal-500/30 shadow-xl">
+      
+      <!-- Baris Atas: Status Zona & Kalender Hijriah -->
+      <div class="flex items-center justify-between mb-3 text-xs">
+        <div class="flex items-center space-x-1.5">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+          <span class="text-[11px] font-semibold tracking-wide text-teal-300 uppercase">RSUD Koesma Tuban</span>
+        </div>
+        <span id="hijri-date" class="font-semibold text-amber-300 text-[11px] bg-amber-950/60 px-2 py-0.5 rounded-full border border-amber-500/30">
+          Memuat Hijriah...
+        </span>
+      </div>
+
+      <!-- Jam Digital Utama -->
+      <div class="text-center my-2 sm:my-3">
+        <div id="digital-clock" class="text-4xl sm:text-6xl font-mono font-extrabold text-white tracking-wider drop-shadow-md">
+          00:00:00 <span class="text-sm sm:text-lg font-sans font-normal text-teal-300">WIB</span>
+        </div>
+        <p id="gregorian-date" class="text-xs sm:text-sm text-teal-200/80 mt-1 font-medium">
+          Memuat tanggal masehi...
+        </p>
+      </div>
+
+      <!-- Sub-Card: Waktu Sholat Berikutnya & Countdown Timer -->
+      <div class="mt-4 p-3.5 sm:p-4 rounded-2xl bg-teal-900/40 border border-teal-500/25 relative overflow-hidden">
+        <div class="flex items-center justify-between">
+          <div>
+            <span id="hero-next-prayer-label" class="text-[10px] font-bold uppercase tracking-wider text-teal-300/80 block">SHOLAT BERIKUTNYA</span>
+            <div class="flex items-baseline space-x-2 mt-0.5">
+              <span id="hero-next-prayer-name" class="text-xl sm:text-2xl font-display font-extrabold text-white">MEMUAT...</span>
+              <span id="hero-next-prayer-time" class="text-xs sm:text-sm font-mono font-bold text-amber-300">--:-- WIB</span>
+            </div>
+          </div>
+
+          <div class="text-right">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-teal-300/80 block">HITUNG MUNDUR</span>
+            <span id="hero-countdown-timer" class="text-xl sm:text-2xl font-mono font-black text-teal-300 tracking-wider">
+              00:00:00
+            </span>
+          </div>
+        </div>
+
+        <!-- Progress Bar Perjalanan Menuju Sholat -->
+        <div class="w-full bg-teal-950/90 rounded-full h-2 overflow-hidden mt-3 p-0.5 border border-teal-700/30">
+          <div id="hero-countdown-progress" class="bg-gradient-to-r from-teal-400 to-emerald-300 h-full rounded-full transition-all duration-1000" style="width: 50%;"></div>
+        </div>
+
+        <div class="mt-2 flex items-center justify-between text-[11px] text-teal-300/80">
+          <span class="flex items-center gap-1">
+            <span>🧭</span> Kiblat 294.1°
+          </span>
+          <button onclick="playAdzanChime()" class="text-teal-300 hover:text-white underline flex items-center gap-1">
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path></svg>
+            Uji Suara
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- HEADER DAFTAR SHOLAT & VIEW TOGGLE (LIST / GRID) -->
+    <div class="flex items-center justify-between mb-3 px-1">
+      <div>
+        <h2 class="text-xs sm:text-sm font-bold uppercase tracking-wider text-teal-300 flex items-center gap-1.5">
+          <span>🕌</span>
+          <span>Jadwal 8 Waktu Sholat</span>
+        </h2>
+        <span class="text-[10px] text-teal-400/80">Markaz RSUD dr. R. Koesma Tuban</span>
+      </div>
+
+      <!-- Toggle Mode Tampilan (List / Grid) -->
+      <div class="flex items-center bg-teal-950/80 p-0.5 rounded-xl border border-teal-800/40 text-xs">
+        <button id="view-btn-list" onclick="toggleViewMode('list')" class="px-2.5 py-1 rounded-lg font-semibold transition flex items-center gap-1 text-[11px] bg-teal-600 text-white">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+          <span class="hidden xs:inline">Daftar</span>
+        </button>
+        <button id="view-btn-grid" onclick="toggleViewMode('grid')" class="px-2.5 py-1 rounded-lg font-semibold transition flex items-center gap-1 text-[11px] text-teal-300 hover:bg-teal-900/40">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+          <span class="hidden xs:inline">Kotak</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- KONTAINER JADWAL SHOLAT (DIRENDER OLEH JS SECARA LIST ATAU GRID) -->
+    <div id="prayer-schedule-container" class="space-y-2.5 mb-6">
+      <div class="p-8 text-center text-teal-300 text-sm">Menghitung hisab waktu sholat...</div>
+    </div>
+
+    <!-- EMPATHY CARD: DO'A & SEMANGAT KESEMBUHAN UNTUK PASIEN RSUD -->
+    <div class="glass-panel rounded-2xl p-4 border-emerald-500/30 bg-emerald-950/40 mb-6 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-emerald-800/50 flex items-center justify-center text-emerald-300 text-xl shrink-0">
+          🤲
+        </div>
+        <div>
+          <h4 class="text-xs font-bold text-emerald-200">Doa Kesembuhan & Dzikir Pasien</h4>
+          <p class="text-[11px] text-teal-300/80">Kumpulan doa sunnah syifa' & tasbih digital untuk pasien & keluarga.</p>
+        </div>
+      </div>
+      <button onclick="openPrayersModal()" class="px-3 py-1.5 rounded-xl bg-teal-600 hover:bg-teal-500 text-xs font-bold text-white shrink-0 shadow transition">
+        Buka Doa
+      </button>
+    </div>
+
+  </main>
+
+  <!-- ==================== RUNNING TEXT PENGUMUMAN ==================== -->
+  <div class="marquee-container py-2 bg-teal-950/90 border-t border-teal-800/40 text-xs text-teal-200 font-medium">
+    <div class="marquee-content flex items-center space-x-8">
+      <span>🏥 RSUD dr. R. Koesma Tuban • Melayani Dengan Hati dan Senyuman</span>
+      <span>•</span>
+      <span>🕌 Standar Hisab Astronomi Kemenag RI & MABIMS Tuban</span>
+      <span>•</span>
+      <span>🤲 Semoga seluruh pasien yang dirawat segera diberikan kesembuhan yang sempurna oleh Allah SWT</span>
+      <span>•</span>
+      <span>🔕 Mohon jaga ketenangan & kenyamanan di lingkungan ruang perawatan</span>
+    </div>
+  </div>
+
+  <!-- ==================== MOBILE FLOATING BOTTOM DOCK ==================== -->
+  <nav class="mobile-bottom-dock fixed bottom-0 left-0 right-0 z-50 md:hidden">
+    <div class="grid grid-cols-5 max-w-md mx-auto py-1">
+      
+      <!-- Tab 1: Jadwal (Home) -->
+      <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="bottom-tab-btn active">
+        <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+        <span>Jadwal</span>
+      </button>
+
+      <!-- Tab 2: Kiblat -->
+      <button onclick="document.getElementById('qibla-modal').classList.remove('hidden'); document.getElementById('qibla-modal').classList.add('flex')" class="bottom-tab-btn">
+        <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+        </svg>
+        <span>Kiblat</span>
+      </button>
+
+      <!-- Tab 3: Doa & Dzikir -->
+      <button onclick="openPrayersModal()" class="bottom-tab-btn">
+        <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+        </svg>
+        <span>Doa</span>
+      </button>
+
+      <!-- Tab 4: 1 Bulan -->
+      <button onclick="openMonthlySchedule()" class="bottom-tab-btn">
+        <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+        </svg>
+        <span>1 Bulan</span>
+      </button>
+
+      <!-- Tab 5: Setelan / Info -->
+      <button onclick="document.getElementById('info-modal').classList.remove('hidden'); document.getElementById('info-modal').classList.add('flex')" class="bottom-tab-btn">
+        <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+        </svg>
+        <span>Setelan</span>
+      </button>
+
+    </div>
+  </nav>
+
+  <!-- ==================== MODAL: KOMPAS KIBLAT MOBILE ==================== -->
+  <div id="qibla-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-3.5">
+    <div class="glass-panel bg-teal-950/95 border border-teal-500/40 rounded-3xl max-w-sm w-full p-5 text-center relative shadow-2xl">
+      <button onclick="document.getElementById('qibla-modal').classList.add('hidden'); document.getElementById('qibla-modal').classList.remove('flex')"
+        class="absolute top-3.5 right-3.5 text-teal-400 hover:text-white p-1 rounded-xl bg-teal-900/40">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+      </button>
+
+      <span class="text-[10px] font-bold uppercase tracking-widest text-amber-400">KOMPAS DIGITAL</span>
+      <h3 class="text-lg font-display font-bold text-white mt-0.5">Arah Kiblat Tuban</h3>
+      <p class="text-[11px] text-teal-300 mb-4">Markaz RSUD dr. R. Koesma ke Ka'bah Makkah</p>
+
+      <!-- Badge Keselarasan Kiblat -->
+      <div id="compass-align-badge" class="hidden text-xs font-bold py-1 px-3 mb-2 rounded-full bg-emerald-500 text-teal-950 animate-bounce">
+        ✨ TEPAT MENGHADAP KIBLAT!
+      </div>
+
+      <!-- Kompas Lingkaran Interaktif -->
+      <div class="relative w-52 h-52 mx-auto mb-4 flex items-center justify-center">
+        <!-- Piringan Kompas (Dial) -->
+        <div id="compass-dial-ring" class="compass-dial w-full h-full rounded-full border-4 border-teal-700/60 bg-teal-900/30 relative flex items-center justify-center shadow-inner">
+          <span class="absolute top-2 text-xs font-bold text-red-400 font-mono">U</span>
+          <span class="absolute right-2 text-xs font-bold text-teal-300 font-mono">T</span>
+          <span class="absolute bottom-2 text-xs font-bold text-teal-300 font-mono">S</span>
+          <span class="absolute left-2 text-xs font-bold text-teal-300 font-mono">B</span>
+
+          <!-- Jarum Kiblat -->
+          <div id="compass-needle" class="compass-dial w-full h-full absolute inset-0 flex items-center justify-center" style="transform: rotate(294.13deg);">
+            <div class="w-2 h-24 bg-gradient-to-t from-transparent via-amber-400 to-amber-300 rounded-full shadow-lg shadow-amber-400/60 relative">
+              <span class="absolute -top-3 left-1/2 -translate-x-1/2 text-[9px] font-extrabold text-amber-100 bg-amber-950 px-1 rounded border border-amber-400">🕋 KIBLAT</span>
+            </div>
+          </div>
+
+          <div class="w-4 h-4 rounded-full bg-teal-300 border-2 border-teal-950 z-10"></div>
+        </div>
+      </div>
+
+      <!-- Info Azimuth & Jarak -->
+      <div class="grid grid-cols-2 gap-2 text-left mb-3">
+        <div class="p-2.5 rounded-xl bg-teal-900/40 border border-teal-800/40">
+          <p class="text-[10px] text-teal-400">Azimuth Kiblat</p>
+          <p id="compass-degrees" class="text-sm font-bold font-mono text-white mt-0.5">294.13° (BL)</p>
+          <p class="text-[9px] text-teal-300/60">24° dari Barat ke Utara</p>
+        </div>
+        <div class="p-2.5 rounded-xl bg-teal-900/40 border border-teal-800/40">
+          <p class="text-[10px] text-teal-400">Jarak ke Ka'bah</p>
+          <p class="text-sm font-bold font-mono text-amber-300 mt-0.5">± 8.580 KM</p>
+          <p class="text-[9px] text-teal-300/60">Makkah Al-Mukarramah</p>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between text-xs text-teal-300">
+        <span id="compass-sensor-status" class="text-[11px]">Sensor Siap</span>
+        <button onclick="window.requestCompassPermission && window.requestCompassPermission()" class="text-amber-300 underline text-xs font-semibold">
+          Aktifkan Sensor HP
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: DOA KESEMBUHAN & TASBIH DIGITAL ==================== -->
+  <div id="prayers-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-3.5">
+    <div class="glass-panel bg-teal-950/95 border border-teal-500/40 rounded-3xl max-w-lg w-full p-5 max-h-[90vh] flex flex-col relative shadow-2xl">
+      <button onclick="closePrayersModal()" class="absolute top-4 right-4 text-teal-400 hover:text-white p-1 rounded-xl bg-teal-900/40">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+      </button>
+
+      <div class="flex items-center space-x-2.5 mb-3">
+        <span class="text-2xl">🤲</span>
+        <div>
+          <h3 class="text-base font-bold font-display text-white">Doa Kesembuhan & Dzikir</h3>
+          <p class="text-[11px] text-teal-300">Spesial untuk Pasien, Keluarga & Tenaga Medis RSUD dr. R. Koesma</p>
+        </div>
+      </div>
+
+      <div class="overflow-y-auto flex-1 space-y-4 pr-1 text-xs">
+        
+        <!-- Doa 1: Doa Nabi SAW Memohon Kesembuhan Pasien -->
+        <div class="p-3.5 rounded-2xl bg-teal-900/40 border border-teal-700/40">
+          <span class="text-[10px] font-bold text-amber-300 uppercase tracking-wider">Doa Nabi SAW Saat Menjenguk Orang Sakit</span>
+          <p class="font-arabic text-base sm:text-lg text-right text-emerald-200 mt-2 leading-loose">
+            اللَّهُمَّ رَبَّ النَّاسِ أَذْهِبِ الْبَأْسَ، اشْفِ أَنْتَ الشَّافِي، لاَ شِفَاءَ إِلاَّ شِفَاؤُكَ، شِفَاءً لاَ يُغَادِرُ سَقَمًا
+          </p>
+          <p class="text-teal-200/90 italic mt-2 text-[11px]">
+            "Allahumma Rabban-naas, adzhibil ba's, isyfi antasy-syaafi, laa syifaa-a illaa syifaa-uk, syifaa-an laa yughaadiru saqamaa."
+          </p>
+          <p class="text-teal-300/80 mt-1 text-[11px]">
+            <strong>Artinya:</strong> Ya Allah, Tuhan seluruh manusia, hilangkanlah rasa sakit ini, sembuhkanlah. Engkaulah Yang Maha Menyembuhkan, tidak ada kesembuhan melainkan kesembuhan dari-Mu, kesembuhan yang tidak meninggalkan penyakit lagi. (HR. Bukhari no. 5742 & Muslim no. 2191)
+          </p>
+        </div>
+
+        <!-- Doa 2: Doa Memohon Kekuatan Saat Diuji Penyakit -->
+        <div class="p-3.5 rounded-2xl bg-teal-900/40 border border-teal-700/40">
+          <span class="text-[10px] font-bold text-amber-300 uppercase tracking-wider">Doa Nabi Ayyub AS Ketika Ditimpa Sakit</span>
+          <p class="font-arabic text-base sm:text-lg text-right text-emerald-200 mt-2 leading-loose">
+            أَنِّي مَسَّنِيَ الضُّرُّ وَأَنْتَ أَرْحَمُ الرَّاحِمِينَ
+          </p>
+          <p class="text-teal-200/90 italic mt-2 text-[11px]">
+            "Anni massaniyad-dhurru wa anta arhamur-raahimin."
+          </p>
+          <p class="text-teal-300/80 mt-1 text-[11px]">
+            <strong>Artinya:</strong> Sesungguhnya aku telah ditimpa penyakit, dan Engkau adalah Tuhan Yang Maha Penyayang di antara semua yang penyayang. (QS. Al-Anbiya: 83)
+          </p>
+        </div>
+
+        <!-- Tasbih Digital Interaktif -->
+        <div class="p-4 rounded-2xl bg-gradient-to-tr from-teal-900 to-teal-950 border border-teal-500/30 text-center">
+          <span class="text-[10px] font-bold uppercase tracking-wider text-teal-300">📿 TASBIH DIGITAL RINGKAS</span>
+          <p class="text-[11px] text-teal-300/70 mb-3">Subhanallah (33x) • Alhamdulillah (33x) • Allahu Akbar (33x)</p>
+          
+          <div class="flex items-center justify-center space-x-6">
+            <button onclick="resetTasbih()" class="p-2 rounded-xl bg-teal-950/60 text-teal-400 hover:text-white border border-teal-800 text-[10px]">
+              Reset
+            </button>
+            <button onclick="tapTasbih()" class="w-24 h-24 rounded-full bg-gradient-to-tr from-teal-600 to-emerald-400 border-4 border-teal-300/50 shadow-lg shadow-teal-500/30 flex flex-col items-center justify-center active:scale-95 transition">
+              <span id="tasbih-count-display" class="text-2xl font-mono font-black text-white">0</span>
+              <span class="text-[9px] font-semibold text-teal-950 uppercase">KETUK</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: JADWAL SHOLAT 1 BULAN ==================== -->
+  <div id="monthly-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-2.5 sm:p-4">
+    <div class="glass-panel bg-teal-950/95 border border-teal-500/40 rounded-3xl max-w-4xl w-full p-4 sm:p-5 max-h-[92vh] flex flex-col relative shadow-2xl">
+      
+      <div class="flex items-center justify-between pb-3 border-b border-teal-800/50 mb-3">
+        <div>
+          <h3 id="monthly-title" class="text-sm sm:text-base font-bold font-display text-white">Jadwal Sholat 1 Bulan Penuh</h3>
+          <p class="text-[11px] text-teal-300">RSUD dr. R. Koesma Tuban • Standar Kemenag RI (+2 Menit)</p>
+        </div>
+        <div class="flex items-center space-x-2">
+          <button onclick="window.print()" class="px-3 py-1.5 rounded-xl bg-teal-700 hover:bg-teal-600 text-xs font-semibold text-white flex items-center gap-1.5 transition">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+            <span>Cetak PDF</span>
+          </button>
+          <button onclick="closeMonthlySchedule()" class="p-1.5 rounded-xl bg-teal-900/60 hover:bg-teal-800 text-teal-300 hover:text-white transition">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Tabel Jadwal Bulanan Responsif -->
+      <div class="overflow-x-auto overflow-y-auto flex-1">
+        <table class="w-full text-xs text-left border-collapse">
+          <thead class="sticky top-0 bg-teal-900 text-teal-200 uppercase font-semibold text-[10px] border-b border-teal-700/50">
+            <tr>
+              <th class="p-2 text-center">Tgl</th>
+              <th class="p-2">Hari & Tanggal</th>
+              <th class="p-2">Hijriah</th>
+              <th class="p-2 text-center">Imsak</th>
+              <th class="p-2 text-center">Subuh</th>
+              <th class="p-2 text-center">Terbit</th>
+              <th class="p-2 text-center">Dhuha</th>
+              <th class="p-2 text-center">Dzuhur</th>
+              <th class="p-2 text-center">Ashar</th>
+              <th class="p-2 text-center">Maghrib</th>
+              <th class="p-2 text-center">Isya</th>
+            </tr>
+          </thead>
+          <tbody id="monthly-table-body" class="divide-y divide-teal-800/30 text-teal-100">
+            <!-- Rendered by JS -->
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: INFO MARKAZ & SETELAN IHTIYAT ==================== -->
+  <div id="info-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-3.5">
+    <div class="glass-panel bg-teal-950/95 border border-teal-500/40 rounded-3xl max-w-md w-full p-5 relative shadow-2xl text-xs">
+      <button onclick="document.getElementById('info-modal').classList.add('hidden'); document.getElementById('info-modal').classList.remove('flex')"
+        class="absolute top-4 right-4 text-teal-400 hover:text-white p-1 rounded-xl bg-teal-900/40">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+      </button>
+
+      <h3 class="text-base font-bold font-display text-white mb-2 flex items-center gap-1.5">
+        <span>⚙️</span> Parameter Markaz & Setelan
+      </h3>
+
+      <div class="space-y-3 text-teal-200/90">
+        <p class="leading-relaxed">
+          Titik hisab astronomis dipatok presisi di gedung <strong>RSUD dr. R. Koesma Tuban</strong> berstandar hisab <strong>Kemenag RI & MABIMS</strong>.
+        </p>
+
+        <div class="p-3 rounded-2xl bg-teal-900/50 border border-teal-800/60 space-y-1.5 font-mono text-[11px]">
+          <div class="flex justify-between"><span class="text-teal-400">Markaz:</span><span>RSUD dr. R. Koesma Tuban</span></div>
+          <div class="flex justify-between"><span class="text-teal-400">Lintang:</span><span>-6.8996° LS</span></div>
+          <div class="flex justify-between"><span class="text-teal-400">Bujur:</span><span>112.0494° BT</span></div>
+          <div class="flex justify-between"><span class="text-teal-400">Elevasi:</span><span>~12 mdpl</span></div>
+          <div class="flex justify-between"><span class="text-teal-400">Zona Waktu:</span><span>WIB (UTC +7)</span></div>
+          <div class="flex justify-between"><span class="text-teal-400">Kiblat:</span><span>294.13° (Barat Laut)</span></div>
+        </div>
+
+        <!-- Slider Koreksi Ihtiyat -->
+        <div class="p-3 rounded-2xl bg-teal-900/30 border border-teal-800/40">
+          <div class="flex justify-between items-center mb-1">
+            <span class="font-semibold text-white">Koreksi Kehati-hatian (Ihtiyat):</span>
+            <span id="ihtiyat-val-label" class="font-bold text-amber-300 font-mono">+2 Menit</span>
+          </div>
+          <input id="ihtiyat-input" type="range" min="0" max="5" value="2" step="1"
+            class="w-full accent-teal-400 cursor-pointer">
+          <p class="text-[10px] text-teal-400/80 mt-1">Standar resmi Kemenag RI menerapkan pengaman +2 menit.</p>
+        </div>
+
+        <!-- Unduh APK Resmi -->
+        <div class="p-3.5 rounded-2xl bg-gradient-to-r from-emerald-950/80 to-teal-950/80 border border-emerald-500/40">
+          <div class="flex items-center justify-between mb-2">
+            <span class="font-bold text-white flex items-center gap-1.5 text-xs">
+              <span>📦</span> File Aplikasi Android (.APK)
+            </span>
+            <span class="text-[10px] bg-emerald-500/20 text-emerald-300 font-mono px-2 py-0.5 rounded-full border border-emerald-500/30">v1.0.0 • 4.1 MB</span>
+          </div>
+          <p class="text-[10px] text-teal-300/80 mb-2.5">
+            Unduh file installer (.apk) untuk dipasang di smartphone Android, tablet pasien, atau TV display musholla RSUD.
+          </p>
+          <a href="https://github.com/koesmamr/jadwal-sholat-rsud-koesma/releases/download/v1.0.0/Jadwal-Sholat-RSUD-Koesma-Tuban.apk"
+            class="w-full py-2 px-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-teal-950 font-bold text-xs flex items-center justify-center gap-2 shadow-md transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+            <span>Unduh File .APK (4.1 MB)</span>
+          </a>
+        </div>
+
+        <div class="pt-2 text-center text-[10px] text-teal-400/70 border-t border-teal-800/40">
+          Versi Mobile 2.0 • PWA & APK Native • Standar Kemenag RI Tuban
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: ALARM ADZAN TIBA ==================== -->
+  <div id="adzan-alert-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="glass-panel bg-gradient-to-b from-teal-900 to-teal-950 border-2 border-teal-400 rounded-3xl max-w-sm w-full p-6 text-center relative shadow-2xl pulse-glow">
+      <div class="w-16 h-16 rounded-full bg-teal-500/20 border-2 border-teal-400 flex items-center justify-center mx-auto mb-3 animate-bounce">
+        <svg class="w-8 h-8 text-teal-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path>
+        </svg>
+      </div>
+
+      <span class="text-[10px] uppercase font-bold tracking-widest text-amber-300">PANGGILAN IBADAH</span>
+      <h3 id="adzan-alert-title" class="text-xl font-display font-extrabold text-white mt-1 mb-1">
+        WAKTU SHOLAT TIBA
+      </h3>
+      <p id="adzan-alert-message" class="text-xs text-teal-200 mb-5 leading-relaxed">
+        Wilayah RSUD dr. R. Koesma Tuban dan sekitarnya. Mari menunaikan sholat berjamaah.
+      </p>
+
+      <button onclick="closeAdzanPopup()" class="w-full py-3 px-5 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 text-teal-950 font-extrabold text-xs shadow-lg shadow-teal-500/30 transition">
+        Alhamdulillah, Matikan Notifikasi
+      </button>
+    </div>
+  </div>
+
+  <!-- Audio Element Fallback -->
+  <audio id="adzan-audio-player" preload="none">
+    <source src="https://media.sd.ma/assabile/adhan_3798/001.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Script Application -->
+  <script src="app.js"></script>
+</body>
+</html>

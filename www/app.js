@@ -315,15 +315,15 @@ function toggleViewMode(mode) {
 
   if (btnList && btnGrid) {
     if (mode === 'list') {
-      btnList.classList.add('bg-amber-600', 'text-slate-950');
-      btnList.classList.remove('text-slate-400', 'hover:bg-slate-800/60');
-      btnGrid.classList.remove('bg-amber-600', 'text-slate-950');
-      btnGrid.classList.add('text-slate-400', 'hover:bg-slate-800/60');
+      btnList.classList.add('bg-teal-600', 'text-white');
+      btnList.classList.remove('text-teal-300', 'hover:bg-teal-900/40');
+      btnGrid.classList.remove('bg-teal-600', 'text-white');
+      btnGrid.classList.add('text-teal-300', 'hover:bg-teal-900/40');
     } else {
-      btnGrid.classList.add('bg-amber-600', 'text-slate-950');
-      btnGrid.classList.remove('text-slate-400', 'hover:bg-slate-800/60');
-      btnList.classList.remove('bg-amber-600', 'text-slate-950');
-      btnList.classList.add('text-slate-400', 'hover:bg-slate-800/60');
+      btnGrid.classList.add('bg-teal-600', 'text-white');
+      btnGrid.classList.remove('text-teal-300', 'hover:bg-teal-900/40');
+      btnList.classList.remove('bg-teal-600', 'text-white');
+      btnList.classList.add('text-teal-300', 'hover:bg-teal-900/40');
     }
   }
 
@@ -332,7 +332,7 @@ function toggleViewMode(mode) {
 
 function getIconSvg(key) {
   if (key === 'imsak' || key === 'isya') {
-    return `<svg class="w-5 h-5 sm:w-6 sm:h-6 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>`;
+    return `<svg class="w-5 h-5 sm:w-6 sm:h-6 text-teal-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>`;
   } else if (key === 'subuh' || key === 'terbit') {
     return `<svg class="w-5 h-5 sm:w-6 sm:h-6 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>`;
   } else if (key === 'dhuha' || key === 'dzuhur') {
@@ -362,31 +362,31 @@ function renderPrayerSchedule() {
 
       const row = document.createElement('div');
       row.className = `glass-panel rounded-2xl p-3.5 sm:p-4 flex items-center justify-between relative overflow-hidden transition-all duration-300 ${
-        isNext ? 'prayer-card-active ring-2 ring-amber-400 bg-slate-800/80' : 'hover:bg-slate-950/40'
+        isNext ? 'prayer-card-active ring-2 ring-teal-400 bg-teal-900/60' : 'hover:bg-teal-950/40'
       }`;
 
       row.innerHTML = `
         <div class="flex items-center space-x-3.5">
-          <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-slate-900/50 border border-slate-500/20 flex items-center justify-center shrink-0">
+          <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-teal-900/50 border border-teal-500/20 flex items-center justify-center shrink-0">
             ${getIconSvg(meta.key)}
           </div>
           <div>
             <div class="flex items-center space-x-2">
-              <span class="text-sm sm:text-base font-bold text-slate-50 tracking-wide">${meta.name}</span>
-              <span class="font-arabic text-slate-300/80 text-xs sm:text-sm font-semibold">${meta.arabic}</span>
+              <span class="text-sm sm:text-base font-bold text-white tracking-wide">${meta.name}</span>
+              <span class="font-arabic text-teal-300/80 text-xs sm:text-sm font-semibold">${meta.arabic}</span>
             </div>
-            <p class="text-[11px] text-slate-300/70">${meta.desc}</p>
+            <p class="text-[11px] text-teal-300/70">${meta.desc}</p>
           </div>
         </div>
 
         <div class="flex items-center space-x-3">
-          ${isNext ? '<span class="hidden xs:inline-flex text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-400 text-slate-950 animate-pulse">BERIKUTNYA</span>' : ''}
+          ${isNext ? '<span class="hidden xs:inline-flex text-[10px] font-bold px-2 py-0.5 rounded-full bg-teal-400 text-teal-950 animate-pulse">BERIKUTNYA</span>' : ''}
           <div class="text-right">
-            <span class="prayer-time text-xl sm:text-2xl font-mono font-bold tracking-tight text-slate-50">${time}</span>
-            <span class="text-[10px] text-slate-400 font-mono block">WIB</span>
+            <span class="prayer-time text-xl sm:text-2xl font-mono font-bold tracking-tight text-white">${time}</span>
+            <span class="text-[10px] text-teal-400 font-mono block">WIB</span>
           </div>
         </div>
-        ${isNext ? '<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-gradient-to-b from-slate-400 to-amber-400"></div>' : ''}
+        ${isNext ? '<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-gradient-to-b from-teal-400 to-emerald-400"></div>' : ''}
       `;
       container.appendChild(row);
     });
@@ -401,22 +401,22 @@ function renderPrayerSchedule() {
 
       const card = document.createElement('div');
       card.className = `glass-panel rounded-2xl p-3 sm:p-4 flex flex-col justify-between relative overflow-hidden transition-all duration-300 ${
-        isNext ? 'prayer-card-active ring-2 ring-amber-400' : ''
+        isNext ? 'prayer-card-active ring-2 ring-teal-400' : ''
       }`;
 
       card.innerHTML = `
         <div class="flex items-center justify-between mb-2">
-          <div class="p-1.5 sm:p-2 rounded-xl bg-slate-900/40 border border-slate-500/20">
+          <div class="p-1.5 sm:p-2 rounded-xl bg-teal-900/40 border border-teal-500/20">
             ${getIconSvg(meta.key)}
           </div>
-          <span class="font-arabic text-slate-300/70 text-xs">${meta.arabic}</span>
+          <span class="font-arabic text-teal-300/70 text-xs">${meta.arabic}</span>
         </div>
         <div>
-          <h3 class="text-xs uppercase tracking-wider text-slate-200/80 font-medium">${meta.name}</h3>
-          <p class="prayer-time text-xl sm:text-2xl font-bold tracking-tight text-slate-50 font-mono mt-0.5">${time}</p>
-          <p class="text-[10px] text-slate-300/60 mt-0.5">${meta.desc}</p>
+          <h3 class="text-xs uppercase tracking-wider text-teal-200/80 font-medium">${meta.name}</h3>
+          <p class="prayer-time text-xl sm:text-2xl font-bold tracking-tight text-white font-mono mt-0.5">${time}</p>
+          <p class="text-[10px] text-teal-300/60 mt-0.5">${meta.desc}</p>
         </div>
-        ${isNext ? '<div class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-slate-400 to-amber-400"></div>' : ''}
+        ${isNext ? '<div class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-teal-400 to-emerald-400"></div>' : ''}
       `;
       container.appendChild(card);
     });
@@ -577,7 +577,7 @@ function startClock() {
     const ss = String(now.getSeconds()).padStart(2, '0');
 
     if (clockEl) {
-      clockEl.innerHTML = `${hh}<span class="colon-blink">:</span>${mm}<span class="colon-blink">:</span>${ss} <span class="text-xs sm:text-base font-normal text-slate-300">WIB</span>`;
+      clockEl.innerHTML = `${hh}<span class="colon-blink">:</span>${mm}<span class="colon-blink">:</span>${ss} <span class="text-xs sm:text-base font-normal text-teal-300">WIB</span>`;
     }
 
     if (dateGregorianEl) {
@@ -749,20 +749,20 @@ function openMonthlySchedule() {
     const hijri = getHijriDate(curDate).split(' ')[0] + ' ' + (getHijriDate(curDate).split(' ')[1] || '');
 
     const tr = document.createElement('tr');
-    tr.className = d === todayDate ? 'bg-slate-900/50 font-bold border-l-4 border-slate-400' : 'hover:bg-slate-950/20';
+    tr.className = d === todayDate ? 'bg-teal-900/50 font-bold border-l-4 border-teal-400' : 'hover:bg-teal-950/20';
 
     tr.innerHTML = `
-      <td class="p-2 text-center text-slate-200 border-b border-slate-800/30">${d}</td>
-      <td class="p-2 text-slate-300 border-b border-slate-800/30 whitespace-nowrap">${curDate.toLocaleDateString('id-ID', { weekday: 'short' })}, ${d} ${monthNames[month]}</td>
-      <td class="p-2 text-slate-400 border-b border-slate-800/30 text-[11px] whitespace-nowrap">${hijri}</td>
-      <td class="p-2 text-center font-mono border-b border-slate-800/30">${timings.imsak}</td>
-      <td class="p-2 text-center font-mono border-b border-slate-800/30 text-amber-300">${timings.subuh}</td>
-      <td class="p-2 text-center font-mono border-b border-slate-800/30 text-gray-400">${timings.terbit}</td>
-      <td class="p-2 text-center font-mono border-b border-slate-800/30">${timings.dhuha}</td>
-      <td class="p-2 text-center font-mono border-b border-slate-800/30 text-yellow-300">${timings.dzuhur}</td>
-      <td class="p-2 text-center font-mono border-b border-slate-800/30 text-amber-400">${timings.ashar}</td>
-      <td class="p-2 text-center font-mono border-b border-slate-800/30 text-orange-400">${timings.maghrib}</td>
-      <td class="p-2 text-center font-mono border-b border-slate-800/30 text-slate-300">${timings.isya}</td>
+      <td class="p-2 text-center text-teal-200 border-b border-teal-800/30">${d}</td>
+      <td class="p-2 text-teal-300 border-b border-teal-800/30 whitespace-nowrap">${curDate.toLocaleDateString('id-ID', { weekday: 'short' })}, ${d} ${monthNames[month]}</td>
+      <td class="p-2 text-teal-400 border-b border-teal-800/30 text-[11px] whitespace-nowrap">${hijri}</td>
+      <td class="p-2 text-center font-mono border-b border-teal-800/30">${timings.imsak}</td>
+      <td class="p-2 text-center font-mono border-b border-teal-800/30 text-amber-300">${timings.subuh}</td>
+      <td class="p-2 text-center font-mono border-b border-teal-800/30 text-gray-400">${timings.terbit}</td>
+      <td class="p-2 text-center font-mono border-b border-teal-800/30">${timings.dhuha}</td>
+      <td class="p-2 text-center font-mono border-b border-teal-800/30 text-yellow-300">${timings.dzuhur}</td>
+      <td class="p-2 text-center font-mono border-b border-teal-800/30 text-amber-400">${timings.ashar}</td>
+      <td class="p-2 text-center font-mono border-b border-teal-800/30 text-orange-400">${timings.maghrib}</td>
+      <td class="p-2 text-center font-mono border-b border-teal-800/30 text-teal-300">${timings.isya}</td>
     `;
     tbody.appendChild(tr);
   }
@@ -812,14 +812,14 @@ function toggleSound() {
 
   if (appState.soundEnabled) {
     getAudioContext();
-    if (soundBtn) soundBtn.classList.add('bg-slate-500/20', 'border-slate-400');
+    if (soundBtn) soundBtn.classList.add('bg-teal-500/20', 'border-teal-400');
     if (soundStatusText) soundStatusText.textContent = "Suara Aktif";
     if (soundIcon) {
       soundIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path>`;
     }
     playAdzanChime();
   } else {
-    if (soundBtn) soundBtn.classList.remove('bg-slate-500/20', 'border-slate-400');
+    if (soundBtn) soundBtn.classList.remove('bg-teal-500/20', 'border-teal-400');
     if (soundStatusText) soundStatusText.textContent = "Suara Hening";
     if (soundIcon) {
       soundIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z m12-2l-4-4m0 4l4-4"></path>`;
@@ -846,7 +846,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const soundStatusText = document.getElementById('sound-status-text');
   const soundBtn = document.getElementById('sound-toggle-btn');
   if (appState.soundEnabled) {
-    if (soundBtn) soundBtn.classList.add('bg-slate-500/20', 'border-slate-400');
+    if (soundBtn) soundBtn.classList.add('bg-teal-500/20', 'border-teal-400');
     if (soundStatusText) soundStatusText.textContent = "Suara Aktif";
   }
 

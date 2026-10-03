@@ -1,0 +1,22 @@
+{
+  "name": "Jadwal Sholat RSUD dr. R. Koesma Tuban",
+  "short_name": "Sholat Koesma",
+  "description": "Jadwal Sholat Digital Akurat Markaz RSUD dr. R. Koesma Tuban Jawa Timur",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#042f2e",
+  "theme_color": "#0d9488",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' rx='40' fill='%230f766e'/><path d='M96 24C60 24 38 60 38 96v56h116V96c0-36-22-72-58-72zm0 32v44m-22-22h44' stroke='%235eead4' stroke-width='14' stroke-linecap='round' stroke-linejoin='round' fill='none'/></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='100' fill='%230f766e'/><path d='M256 64C160 64 100 160 100 256v150h312V256c0-96-60-192-156-192zm0 85v118m-59-59h118' stroke='%235eead4' stroke-width='36' stroke-linecap='round' stroke-linejoin='round' fill='none'/></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}

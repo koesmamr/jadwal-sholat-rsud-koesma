@@ -292,55 +292,14 @@ function closeAdzanPopup() {
 /* -------------------------------------------------------------------------- */
 
 async function loadPrayerTimings(targetDate = appState.selectedDate) {
+  // Hitung jadwal secara instan (0ms) menggunakan hisab astronomis standar Kemenag RI / MABIMS
   const localTimings = KoesmaPrayerEngine.calculate(targetDate);
   appState.currentTimings = localTimings;
 
-  try {
-    const d = targetDate.getDate();
-    const m = targetDate.getMonth() + 1;
-    const y = targetDate.getFullYear();
-    const dateQuery = `${d}-${m}-${y}`;
-
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 3500);
-
-    const res = await fetch(
-      `https://api.aladhan.com/v1/timings/${dateQuery}?latitude=${CONFIG.lat}&longitude=${CONFIG.lng}&method=20`,
-      { signal: controller.signal }
-    );
-    clearTimeout(timeoutId);
-
-    if (res.ok) {
-      const data = await res.json();
-      if (data && data.data && data.data.timings) {
-        const t = data.data.timings;
-        const applyIhtiyat = (timeStr, extraMinutes = 0) => {
-          const [hh, mm] = timeStr.split(':').map(Number);
-          const total = (hh * 60 + mm + extraMinutes + 1440) % 1440;
-          const nh = Math.floor(total / 60);
-          const nm = total % 60;
-          return `${String(nh).padStart(2, '0')}:${String(nm).padStart(2, '0')}`;
-        };
-
-        const iht = appState.ihtiyat;
-        appState.currentTimings = {
-          imsak: applyIhtiyat(t.Imsak, iht - 2),
-          subuh: applyIhtiyat(t.Fajr, iht - 2),
-          terbit: t.Sunrise,
-          dhuha: applyIhtiyat(t.Sunrise, 25),
-          dzuhur: applyIhtiyat(t.Dhuhr, iht - 2),
-          ashar: applyIhtiyat(t.Asr, iht - 2),
-          maghrib: applyIhtiyat(t.Maghrib, iht - 2),
-          isya: applyIhtiyat(t.Isha, iht - 2)
-        };
-      }
-    }
-  } catch (e) {
-    // Mode offline / standalone hisab
-  }
-
+  // Render langsung ke antarmuka pengguna tanpa menunggu jaringan
   renderPrayerSchedule();
   updateCountdown();
+  updateNavDateDisplay();
 }
 
 /* -------------------------------------------------------------------------- */
@@ -520,11 +479,25 @@ function updateCountdown() {
   const countdownEl = document.getElementById('hero-countdown-timer');
   const nextNameEl = document.getElementById('hero-next-prayer-name');
   const nextTimeEl = document.getElementById('hero-next-prayer-time');
+  const nextLabelEl = document.getElementById('hero-next-prayer-label');
   const progressBar = document.getElementById('hero-countdown-progress');
 
   if (countdownEl) countdownEl.textContent = countdownStr;
   if (nextNameEl) nextNameEl.textContent = nextPrayer.name.toUpperCase();
   if (nextTimeEl) nextTimeEl.textContent = `${nextPrayer.time} WIB`;
+
+  // Label dinamis: Terbit adalah Syuruq (akhir Subuh), bukan waktu sholat
+  if (nextLabelEl) {
+    if (nextPrayer.key === 'terbit') {
+      nextLabelEl.textContent = 'AKHIR WAKTU SUBUH (SYURUQ)';
+    } else if (nextPrayer.key === 'imsak') {
+      nextLabelEl.textContent = 'BATAS SAHUR (IMSAK)';
+    } else if (nextPrayer.key === 'dhuha') {
+      nextLabelEl.textContent = 'SHOLAT SUNNAH DHUHA';
+    } else {
+      nextLabelEl.textContent = 'SHOLAT BERIKUTNYA';
+    }
+  }
 
   if (progressBar && prevPrayer) {
     let intervalSec = 0;
@@ -548,12 +521,8 @@ function updateCountdown() {
 /* 6. NAVIGASI TANGGAL (KEMARIN, HARI INI, BESOK)                             */
 /* -------------------------------------------------------------------------- */
 
-function navigateDate(offsetChange) {
-  appState.dateOffset += offsetChange;
-  const target = new Date();
-  target.setDate(target.getDate() + appState.dateOffset);
-  appState.selectedDate = target;
-
+function updateNavDateDisplay() {
+  const target = appState.selectedDate || new Date();
   const navLabel = document.getElementById('date-nav-label');
   const navSub = document.getElementById('date-nav-sub');
 
@@ -572,14 +541,23 @@ function navigateDate(offsetChange) {
   if (navSub) {
     navSub.textContent = target.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
   }
+}
 
+function navigateDate(offsetChange) {
+  appState.dateOffset += offsetChange;
+  const target = new Date();
+  target.setDate(target.getDate() + appState.dateOffset);
+  appState.selectedDate = target;
+
+  updateNavDateDisplay();
   loadPrayerTimings(target);
 }
 
 function resetToToday() {
   appState.dateOffset = 0;
   appState.selectedDate = new Date();
-  navigateDate(0);
+  updateNavDateDisplay();
+  loadPrayerTimings(appState.selectedDate);
 }
 
 /* -------------------------------------------------------------------------- */
